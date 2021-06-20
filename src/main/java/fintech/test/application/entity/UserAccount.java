@@ -25,10 +25,8 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
 
-    @Column()
     private String firstName;
 
-    @Column
     private String lastName;
 
     @Enumerated(EnumType.STRING)
@@ -39,5 +37,4 @@ public class UserAccount {
 
     @CreationTimestamp
     private LocalDate createdAt;
-
 }
