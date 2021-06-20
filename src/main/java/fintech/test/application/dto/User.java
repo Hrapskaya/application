@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-public class UserAccountDto {
+public class User {
 
     private Integer id;
 
