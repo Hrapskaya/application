@@ -7,7 +7,7 @@
             <label for="userName" class="col-sm-2 col-form-label">User Name :</label>
             <div class="col-sm-6">
                 <input id="userName" type="text" name="userName"
-                       value="<#if user??>${user.userName}</#if>"
+                       value="<#if userAccount??>${userAccount.userName}</#if>"
                        class="form-control ${(userNameError??)?string('is-invalid', '')}"
                        placeholder="User name"/>
                 <#if userNameError??>
@@ -21,7 +21,7 @@
             <label for="firstName" class="col-sm-2 col-form-label">First Name :</label>
             <div class="col-sm-6">
                 <input id="firstName" type="text" name="firstName"
-                       value="<#if user??>${user.firstName}</#if>"
+                       value="<#if userAccount??>${userAccount.firstName}</#if>"
                        class="form-control ${(firstNameError??)?string('is-invalid', '')}"
                        placeholder="First name"/>
                 <#if firstNameError??>
@@ -36,7 +36,7 @@
             <label for="lastName" class="col-sm-2 col-form-label">Last Name :</label>
             <div class="col-sm-6">
                 <input id="lastName" type="text" name="lastName"
-                       value="<#if user??>${user.lastName}</#if>"
+                       value="<#if userAccount??>${userAccount.lastName}</#if>"
                        class="form-control ${(lastNameError??)?string('is-invalid', '')}"
                        placeholder="Last name"/>
                 <#if lastNameError??>

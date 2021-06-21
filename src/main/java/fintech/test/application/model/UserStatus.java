@@ -1,4 +1,4 @@
-package fintech.test.application.entity;
+package fintech.test.application.model;
 
 public enum UserStatus {
     ACTIVE,

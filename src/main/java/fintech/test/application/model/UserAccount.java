@@ -1,8 +1,6 @@
-package fintech.test.application.dto;
+package fintech.test.application.model;
 
 import fintech.test.application.constant.Regexp;
-import fintech.test.application.entity.UserRole;
-import fintech.test.application.entity.UserStatus;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import static fintech.test.application.constant.ValidationMessage.*;
 
-public class User implements UserDetails {
+public class UserAccount implements UserDetails {
 
     private Integer id;
 
@@ -119,7 +117,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override

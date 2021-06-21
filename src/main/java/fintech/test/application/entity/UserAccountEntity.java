@@ -1,6 +1,7 @@
 package fintech.test.application.entity;
 
-import jdk.jfr.Timestamp;
+import fintech.test.application.model.UserRole;
+import fintech.test.application.model.UserStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Table(name = "user_accounts")
 @Data
 @NoArgsConstructor
-public class UserAccount {
+public class UserAccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +26,10 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
     @Enumerated(EnumType.STRING)

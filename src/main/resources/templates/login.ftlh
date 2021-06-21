@@ -1,7 +1,6 @@
 <#import "parts/common.ftlh" as common>
 <@common.page>
-    <div class="card col-8">
-        <h5 class="card-header">Login form</h5>
+    <div class="col-8">
         <form action="/login" method="post">
             <div><label> User Name : <input type="text" name="username"/> </label></div>
             <div><label> Password: <input type="password" name="password"/> </label></div>
