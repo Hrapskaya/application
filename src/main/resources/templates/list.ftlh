@@ -1,6 +1,21 @@
 <#import "parts/pagination.ftlh" as p>
 <#import "parts/common.ftlh" as common>
 <@common.page>
+    <form action="/user" >
+        <label>
+            UserNameFilter:
+            <input type="text" name="filterUserName"/>
+        </label>
+        <label>
+            UserRoleFilter:
+            <select class="form-select" aria-label="UserRoleFilter" name="filterUserRole">
+                <option value="">None</option>
+                <option value="USER">User</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+        </label>
+        <input type="submit" value="Submit">
+    </form>
 <table class="table">
     <thead>
     <tr>

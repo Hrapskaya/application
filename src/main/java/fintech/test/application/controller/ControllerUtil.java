@@ -14,7 +14,7 @@ public class ControllerUtil {
         Map<String, String> errors = new HashMap<>();
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
-            errors.put(fieldError.getField() + "Error", fieldError.getDefaultMessage());
+            errors.putIfAbsent(fieldError.getField() + "Error", fieldError.getDefaultMessage());
         }
         return errors;
     }

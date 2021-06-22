@@ -2,16 +2,16 @@
 <@common.page>
 
 
-    <form action="/user/new" method="post">
+    <form action="/user/edit" method="post">
         <div class="row mb-3">
             <label for="userName" class="col-sm-2 col-form-label">User Name :</label>
             <div class="col-sm-6">
                 <input id="userName" type="text" name="userName"
-                       <#if userAccount??>
-                           value=${userAccount.userName}
+                    <#if userAccount??>
+                       value=${userAccount.userName}
                        </#if>
                        class="form-control ${(userNameError??)?string('is-invalid', '')}"
-                       placeholder="User name"/>
+                placeholder="User name"/>
                 <#if userNameError??>
                     <div class="invalid-feedback">
                         ${userNameError}
@@ -82,11 +82,11 @@
                     <option value="ACTIVE">Active</option>
                     <option value="INACTIVE">Inactive</option>
                 </select>
-            <select name="role">
-                <option value="USER">User</option>
-                <option value="ADMIN">Admin</option>
-            </select>
-        </div>
+                <select name="role">
+                    <option value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+            </div>
         </div>
         <div class="mb-3 row">
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>

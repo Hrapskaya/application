@@ -27,9 +27,6 @@ public class UserAccount implements UserDetails {
     @Pattern(regexp = Regexp.PASSWORD, message = PASSWORD_MISMATCH_REGEXP)
     private String password;
 
-    @NotBlank(message = REPEAT_PASSWORD_BLANCK)
-    private String repeatPassword;
-
     @NotBlank(message = FIRST_NAME_BLANCK)
     @Length(min = 3, max = 16, message = FIRST_NAME_WRONG_LENGTH)
     @Pattern(regexp = Regexp.FIRST_NAME, message = FIRST_NAME_MISMATCH_REGEXP)
@@ -62,16 +59,12 @@ public class UserAccount implements UserDetails {
         this.password = password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public void setFirstName(String firstName) {

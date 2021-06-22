@@ -8,6 +8,7 @@
         <div class="card col-6">
             <div class="card-header">
                 ${userAccount.username}
+                <a href="/user/${userAccount.id}/edit" class="btn btn-primary d-flex">Edit</a>
             </div>
             <div class="card-body">
                 <table class="table table-borderless">

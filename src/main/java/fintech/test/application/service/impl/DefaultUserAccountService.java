@@ -1,5 +1,6 @@
 package fintech.test.application.service.impl;
 
+import fintech.test.application.model.UserRole;
 import fintech.test.application.model.UserStatus;
 import fintech.test.application.service.UserConverter;
 import fintech.test.application.entity.UserAccountEntity;
@@ -9,12 +10,18 @@ import fintech.test.application.service.UserAccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,16 +46,28 @@ public class DefaultUserAccountService implements UserAccountService {
     }
 
     @Override
-    public void update(UserAccount userAccount) {
-
+    public UserAccount update(UserAccount userAccount) {
+//        UserAccount updatedUserAccount = null;
+//        Integer id = userAccount.getId();
+//        if(id != null) {
+//            UserAccountEntity userAccountEntityFromBd = userAccountRepository.findById(userAccount.getId()).orElse(null);
+//            if(userAccountEntityFromBd != null){
+//                String noEncodePassword = userAccount.getPassword();
+//
+//                userAccount.setPassword(passwordEncoder.encode(noEncodePassword));
+//                userAccountEntityFromBd = UserConverter.toEntity(userAccount);
+//
+//            }
+//        }
+        return null;
     }
 
     @Override
     public UserAccount changeStatus(Integer id) {
         UserAccountEntity userAccountEntityFromBd = userAccountRepository.findById(id).orElse(null);
-        if(userAccountEntityFromBd == null){
+        if (userAccountEntityFromBd == null) {
             return null;
-        }else {
+        } else {
             UserStatus userStatusInBd = userAccountEntityFromBd.getStatus();
             UserStatus newUserStatus = userStatusInBd == UserStatus.ACTIVE ? UserStatus.INACTIVE : UserStatus.ACTIVE;
             userAccountEntityFromBd.setStatus(newUserStatus);
@@ -77,5 +96,26 @@ public class DefaultUserAccountService implements UserAccountService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserAccountEntity userAccountEntity = userAccountRepository.findByUserName(username);
         return UserConverter.fromEntity(userAccountEntity);
+    }
+
+    @Override
+    public Page<UserAccount> findPage(String filterUserName, String filterUserRole, Pageable pageable) {
+        Page<UserAccountEntity> userAccountEntityPage = userAccountRepository.findAll(new Specification<UserAccountEntity>() {
+            @Override
+            public Predicate toPredicate(Root<UserAccountEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (!filterUserName.isEmpty()) {
+                    predicate = criteriaBuilder
+                            .and(predicate, criteriaBuilder.like(root.get("userName"), "%" + filterUserName + "%"));
+                }
+                if (!filterUserRole.isEmpty()) {
+                    predicate = criteriaBuilder
+                            .and(predicate, criteriaBuilder.equal(root.get("role"), UserRole.valueOf(filterUserRole)));
+                }
+                query.orderBy(criteriaBuilder.desc(root.get("id")));
+                return predicate;
+            }
+        }, pageable);
+        return userAccountEntityPage.map(UserConverter::fromEntity);
     }
 }

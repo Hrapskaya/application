@@ -11,7 +11,6 @@ public class UserConverter {
         UserAccountEntity userAccountEntity = new UserAccountEntity();
         userAccountEntity.setId(userAccount.getId());
         userAccountEntity.setUserName(userAccount.getUsername());
-        userAccountEntity.setPassword(userAccount.getPassword());
         userAccountEntity.setFirstName(userAccount.getFirstName());
         userAccountEntity.setLastName(userAccount.getLastName());
         userAccountEntity.setRole(userAccount.getRole());
@@ -24,7 +23,6 @@ public class UserConverter {
         UserAccount userAccount = new UserAccount();
         userAccount.setId(userAccountEntity.getId());
         userAccount.setUserName(userAccountEntity.getUserName());
-        userAccount.setPassword(userAccountEntity.getPassword());
         userAccount.setFirstName(userAccountEntity.getFirstName());
         userAccount.setLastName(userAccountEntity.getLastName());
         userAccount.setRole(userAccountEntity.getRole());
