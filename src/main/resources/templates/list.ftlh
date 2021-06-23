@@ -4,14 +4,18 @@
     <form action="/user" >
         <label>
             UserNameFilter:
-            <input type="text" name="filterUsername"/>
+            <input type="text" name="filterUsername" value="<#if filterUsername??>${filterUsername}</#if>"/>
         </label>
         <label>
             UserRoleFilter:
             <select class="form-select" aria-label="UserRoleFilter" name="filterUserRole">
                 <option value="">None</option>
-                <option value="USER">User</option>
-                <option value="ADMIN">Admin</option>
+                <option <#if filterUserRole?? && filterUserRole=='USER'>selected</#if> value="USER">
+                    User
+                </option>
+                <option <#if filterUserRole?? && filterUserRole=='ADMIN'>selected</#if> value="ADMIN">
+                    Admin
+                </option>
             </select>
         </label>
         <input type="submit" value="Submit">
@@ -40,6 +44,12 @@
     </#list>
     </tbody>
 </table>
-
-<@p.pagination "/user" userPage />
+<#assign filter=""/>
+    <#if filterUserRole??>
+        <#assign filter ="&filterUserRole=${filterUserRole}"/>
+    </#if>
+    <#if filterUsername??>
+        <#assign filter ="${filter}&filterUsername=${filterUsername}"/>
+    </#if>
+<@p.pagination "/user" userPage filter/>
 </@common.page>

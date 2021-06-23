@@ -3,6 +3,7 @@ package fintech.test.application.domain;
 import fintech.test.application.constant.Regexp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import static fintech.test.application.constant.Message.*;
 
 public class UserAccount implements UserDetails {
+
+    private String ROLE_PREFIX = "ROLE_";
 
     private Integer id;
 
@@ -88,6 +91,7 @@ public class UserAccount implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return Collections.singleton(new SimpleGrantedAuthority(ROLE_PREFIX + role));
         return Collections.singleton(role);
     }
 
@@ -130,5 +134,9 @@ public class UserAccount implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isAdmin() {
+        return role == UserRole.ADMIN;
     }
 }
