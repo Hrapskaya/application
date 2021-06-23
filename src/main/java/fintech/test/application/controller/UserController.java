@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,9 +51,10 @@ public class UserController {
     @GetMapping("/{id}")
     public String findUser(@PathVariable Integer id,
                            @RequestParam(required = false) String changeLock,
+                           @AuthenticationPrincipal UserAccount user,
                            Model model) {
         UserAccount userAccount;
-        if (changeLock != null) {
+        if (changeLock != null && user.isAdmin()) {
             userAccount = userAccountService.changeStatus(id);
         } else {
             userAccount = userAccountService.findById(id);
@@ -64,11 +67,13 @@ public class UserController {
         return "view";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/new")
     public String newUser() {
         return "newUser";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/new")
     public String addUser(String repeatPassword,
                           @Valid UserAccount userAccount,
@@ -93,6 +98,7 @@ public class UserController {
         return "newUser";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id,
                        Model model) {
@@ -101,6 +107,7 @@ public class UserController {
         return "edit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/edit")
     public String edit(@RequestParam(defaultValue = "") String password,
                        @RequestParam(defaultValue = "") String repeatPassword,

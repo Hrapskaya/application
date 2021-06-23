@@ -1,3 +1,4 @@
+<#include "parts/security.ftlh">
 <#import "parts/common.ftlh" as common>
 <#import "parts/error.ftlh" as e>
 <@common.page>
@@ -8,7 +9,9 @@
         <div class="card col-6">
             <div class="card-header">
                 ${userAccount.username}
-                <a href="/user/${userAccount.id}/edit" class="btn btn-primary col-2">Edit</a>
+                <#if user?? && isAdmin==true>
+                    <a href="/user/${userAccount.id}/edit" class="btn btn-primary col-2">Edit</a>
+                </#if>
             </div>
             <div class="card-body">
                 <table class="table table-borderless">
@@ -35,7 +38,9 @@
                     </tr>
                     </tbody>
                 </table>
-                <a href="/user/${userAccount.id}?changeLock" class="btn btn-primary">Lock/Unlock</a>
+                <#if user?? && isAdmin==true>
+                    <a href="/user/${userAccount.id}?changeLock" class="btn btn-primary">Lock/Unlock</a>
+                </#if>
             </div>
         </div>
     </#if>

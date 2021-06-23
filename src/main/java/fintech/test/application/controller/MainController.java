@@ -20,12 +20,12 @@ public class MainController {
                         @RequestParam(value = "logout", required = false) String logout,
                         Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) {
-            model.addAttribute("error", error != null);
-            model.addAttribute("logout", logout != null);
-            return "login";
+
+        if (ControllerUtil.isAuthentication()) {
+            return "home";
         }
-        return "home";
+        model.addAttribute("error", error != null);
+        model.addAttribute("logout", logout != null);
+        return "login";
     }
 }
