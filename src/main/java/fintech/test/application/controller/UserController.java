@@ -146,4 +146,16 @@ public class UserController {
         }
 
     }
+
+    @PostConstruct
+    private void createDefaultUser(){
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername("admin");
+        userAccount.setFirstName("admin");
+        userAccount.setLastName("admin");
+        userAccount.setPassword("admin");
+        userAccount.setRole(UserRole.ADMIN);
+        userAccount.setStatus(UserStatus.ACTIVE);
+        userAccountService.add(userAccount);
+    }
 }
