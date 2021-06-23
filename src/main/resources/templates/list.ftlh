@@ -4,7 +4,7 @@
     <form action="/user" >
         <label>
             UserNameFilter:
-            <input type="text" name="filterUserName"/>
+            <input type="text" name="filterUsername"/>
         </label>
         <label>
             UserRoleFilter:

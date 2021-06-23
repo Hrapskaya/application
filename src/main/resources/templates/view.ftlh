@@ -8,7 +8,7 @@
         <div class="card col-6">
             <div class="card-header">
                 ${userAccount.username}
-                <a href="/user/${userAccount.id}/edit" class="btn btn-primary d-flex">Edit</a>
+                <a href="/user/${userAccount.id}/edit" class="btn btn-primary col-2">Edit</a>
             </div>
             <div class="card-body">
                 <table class="table table-borderless">
@@ -35,7 +35,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a href="/user/${userAccount.id}/lock" class="btn btn-primary">Lock/Unlock</a>
+                <a href="/user/${userAccount.id}?changeLock" class="btn btn-primary">Lock/Unlock</a>
             </div>
         </div>
     </#if>

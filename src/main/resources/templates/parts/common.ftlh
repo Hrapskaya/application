@@ -1,6 +1,7 @@
 <#macro page>
     <#import "header.ftlh" as h>
     <#import "menu.ftlh" as m>
+
     <!DOCTYPE html>
     <html lang="en">
     <head>

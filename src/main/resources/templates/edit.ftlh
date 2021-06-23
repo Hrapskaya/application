@@ -4,19 +4,11 @@
 
     <form action="/user/edit" method="post">
         <div class="row mb-3">
-            <label for="userName" class="col-sm-2 col-form-label">User Name :</label>
             <div class="col-sm-6">
-                <input id="userName" type="text" name="userName"
                     <#if userAccount??>
-                       value=${userAccount.userName}
-                       </#if>
-                       class="form-control ${(userNameError??)?string('is-invalid', '')}"
-                placeholder="User name"/>
-                <#if userNameError??>
-                    <div class="invalid-feedback">
-                        ${userNameError}
-                    </div>
-                </#if>
+                        <h3>${userAccount.username}</h3>
+                        <input type="hidden" name="username" value="${userAccount.username}"/>
+                    </#if>
             </div>
         </div>
         <div class="row mb-3">

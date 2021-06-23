@@ -4,17 +4,17 @@
 
     <form action="/user/new" method="post">
         <div class="row mb-3">
-            <label for="userName" class="col-sm-2 col-form-label">User Name :</label>
+            <label for="username" class="col-sm-2 col-form-label">User Name :</label>
             <div class="col-sm-6">
-                <input id="userName" type="text" name="userName"
+                <input id="username" type="text" name="username"
                        <#if userAccount??>
-                           value=${userAccount.userName}
+                           value=${userAccount.username}
                        </#if>
-                       class="form-control ${(userNameError??)?string('is-invalid', '')}"
+                       class="form-control ${(usernameError??)?string('is-invalid', '')}"
                        placeholder="User name"/>
-                <#if userNameError??>
+                <#if usernameError??>
                     <div class="invalid-feedback">
-                        ${userNameError}
+                        ${usernameError}
                     </div>
                 </#if>
             </div>

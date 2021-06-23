@@ -1,7 +1,7 @@
-package fintech.test.application.entity;
+package fintech.test.application.domain.entity;
 
-import fintech.test.application.model.UserRole;
-import fintech.test.application.model.UserStatus;
+import fintech.test.application.domain.UserRole;
+import fintech.test.application.domain.UserStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,8 +20,8 @@ public class UserAccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 16)
-    private String userName;
+    @Column(unique = true, nullable = false, length = 16, name = "user_name")
+    private String username;
 
     @Column(nullable = false)
     private String password;

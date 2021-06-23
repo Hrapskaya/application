@@ -1,12 +1,13 @@
 package fintech.test.application.controller;
 
-import fintech.test.application.model.UserAccount;
+import fintech.test.application.domain.UserAccount;
 import fintech.test.application.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,44 +30,52 @@ public class UserController {
 
     @GetMapping
     public String findUserPage(Model model,
-                               @RequestParam(defaultValue = "") String filterUserName,
+                               @RequestParam(defaultValue = "") String filterUsername,
                                @RequestParam(defaultValue = "") String filterUserRole,
                                @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = MAX_USER_NUMBER_ON_PAGE) Pageable pageable) {
-//        log.info("Handling find user page number: " + page + " request");
+
         Page<UserAccount> userAccountPage;
-        if (filterUserName.isEmpty() && filterUserRole.isEmpty()) {
+        if (filterUsername.isEmpty() && filterUserRole.isEmpty()) {
             userAccountPage = userAccountService.findPage(pageable);
         } else {
-            userAccountPage = userAccountService.findPage(filterUserName, filterUserRole, pageable);
+            userAccountPage = userAccountService.findPage(filterUsername, filterUserRole, pageable);
         }
         model.addAttribute("userPage", userAccountPage);
         return "list";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public String findUser(@PathVariable Integer id,
+                           @RequestParam(required = false) String changeLock,
                            Model model) {
-//        log.info("Handling find user by id: " + id + " request");
-        UserAccount userAccount = userAccountService.findById(id);
+        UserAccount userAccount;
+        if (changeLock != null) {
+            userAccount = userAccountService.changeStatus(id);
+        } else {
+            userAccount = userAccountService.findById(id);
+        }
         if (userAccount == null) {
-            model.addAttribute("error", ERROR_PAGE_NOT_FOUND);
+            model.addAttribute("error", ERROR_USER_NOT_FOUND);
         } else {
             model.addAttribute("userAccount", userAccount);
         }
         return "view";
     }
+    
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/new")
     public String newUser() {
         return "newUser";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/new")
     public String addUser(String repeatPassword,
                           @Valid UserAccount userAccount,
                           BindingResult bindingResult,
                           Model model) {
-//        log.info("Handling add user account: " + user);
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtil.getErrors(bindingResult);
@@ -86,18 +95,7 @@ public class UserController {
         return "newUser";
     }
 
-    @GetMapping("/{id}/lock")
-    public String changeStatus(@PathVariable Integer id,
-                               Model model) {
-        UserAccount userAccount = userAccountService.changeStatus(id);
-        if (userAccount == null) {
-            model.addAttribute("error", ERROR_USER_NOT_FOUND);
-        } else {
-            model.addAttribute("userAccount", userAccount);
-        }
-        return "view";
-    }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id,
                        Model model) {
@@ -106,10 +104,39 @@ public class UserController {
         return "edit";
     }
 
-//    @PostMapping("/edit")
-//    public String edit(@Valid UserAccount userAccount,
-//                       BindingResult bindingResult,
-//                       Model model) {
-//
-//    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/edit")
+    public String edit(@RequestParam(defaultValue = "") String password,
+                       @RequestParam(defaultValue = "") String repeatPassword,
+                       @Valid UserAccount userAccount,
+                       BindingResult bindingResult,
+                       Model model) {
+
+        UserAccount updatedUserAccount = null;
+        userAccount.setPassword(password);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtil.getErrors(bindingResult);
+            if (errors.size() == 1 && password.isEmpty()) {
+                updatedUserAccount = userAccountService.update(userAccount);
+            } else {
+                model.mergeAttributes(errors);
+            }
+        } else {
+            if (!password.isEmpty() && password.equals(repeatPassword)) {
+                if (userAccountService.updatePassword(userAccount)) {
+                    updatedUserAccount = userAccountService.update(userAccount);
+                }
+            } else {
+                model.addAttribute("passwordError", ERROR_PASSWORDS_MISMATCH);
+            }
+        }
+        if (updatedUserAccount == null) {
+            model.addAttribute("error", ERROR_USER_NOT_FOUND);
+            return "edit";
+        } else {
+            model.addAttribute("userAccount", updatedUserAccount);
+            return "view";
+        }
+
+    }
 }

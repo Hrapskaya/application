@@ -1,7 +1,6 @@
-package fintech.test.application.model;
+package fintech.test.application.domain;
 
 import fintech.test.application.constant.Regexp;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +10,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
-import static fintech.test.application.constant.ValidationMessage.*;
+
+import static fintech.test.application.constant.Message.*;
 
 public class UserAccount implements UserDetails {
 
@@ -20,9 +20,8 @@ public class UserAccount implements UserDetails {
     @NotBlank(message = USER_NAME_BLANCK)
     @Length(min = 3, max = 16, message = USER_NAME_WRONG_LENGTH)
     @Pattern(regexp = Regexp.USER_NAME, message = USER_NAME_MISMATCH_REGEXP)
-    private String userName;
+    private String username;
 
-    @NotBlank(message = PASSWORD_BLANCK)
     @Length(min = 3, max = 16, message = PASSWORD_WRONG_LENGTH)
     @Pattern(regexp = Regexp.PASSWORD, message = PASSWORD_MISMATCH_REGEXP)
     private String password;
@@ -51,8 +50,8 @@ public class UserAccount implements UserDetails {
         this.id = id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -63,8 +62,33 @@ public class UserAccount implements UserDetails {
         return firstName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return status == UserStatus.ACTIVE;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(role);
     }
 
     public void setFirstName(String firstName) {
@@ -103,39 +127,8 @@ public class UserAccount implements UserDetails {
         this.createdAt = createdAt;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(role);
-    }
 
-    @Override
     public String getPassword() {
         return password;
     }
-
-    @Override
-    public String getUsername() {
-        return userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return status == UserStatus.ACTIVE;
-    }
-
 }

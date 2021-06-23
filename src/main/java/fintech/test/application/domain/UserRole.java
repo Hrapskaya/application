@@ -1,4 +1,4 @@
-package fintech.test.application.model;
+package fintech.test.application.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

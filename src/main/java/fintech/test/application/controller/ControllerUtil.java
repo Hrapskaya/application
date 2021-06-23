@@ -1,5 +1,6 @@
 package fintech.test.application.controller;
 
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -18,4 +19,5 @@ public class ControllerUtil {
         }
         return errors;
     }
+
 }
