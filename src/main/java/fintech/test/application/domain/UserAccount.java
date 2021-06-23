@@ -1,6 +1,8 @@
 package fintech.test.application.domain;
 
 import fintech.test.application.constant.RegexpConstant;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +16,15 @@ import java.util.Collections;
 import static fintech.test.application.constant.MessageConstant.*;
 import static fintech.test.application.constant.RegexpConstant.*;
 
+
+@EqualsAndHashCode
+@ToString
 public class UserAccount implements UserDetails {
 
     private Integer id;
 
     @NotBlank(message = USER_NAME_BLANCK)
-    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = USER_NAME_WRONG_LENGTH)
+    @Length(min = MIN_USER_NAME_SIZE, max = MAX_NAME_SIZE, message = USER_NAME_WRONG_LENGTH)
     @Pattern(regexp = USER_NAME_REGEX, message = USER_NAME_MISMATCH_REGEXP)
     private String username;
 
@@ -27,12 +32,12 @@ public class UserAccount implements UserDetails {
     private String password;
 
     @NotBlank(message = FIRST_NAME_BLANCK)
-    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = FIRST_NAME_WRONG_LENGTH)
+    @Length(min = MIN_FIRST_NAME, max = MAX_NAME_SIZE, message = FIRST_NAME_WRONG_LENGTH)
     @Pattern(regexp = FIRST_NAME_REGEX, message = FIRST_NAME_MISMATCH_REGEXP)
     private String firstName;
 
     @NotBlank(message = LAST_NAME_BLANCK)
-    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = LAST_NAME_WRONG_LENGTH)
+    @Length(min = MIN_LAST_NAME, max = MAX_NAME_SIZE, message = LAST_NAME_WRONG_LENGTH)
     @Pattern(regexp = RegexpConstant.LAST_NAME_REGEX, message = LAST_NAME_MISMATCH_REGEXP)
     private String lastName;
 
@@ -88,7 +93,6 @@ public class UserAccount implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singleton(new SimpleGrantedAuthority(ROLE_PREFIX + role));
         return Collections.singleton(role);
     }
 
