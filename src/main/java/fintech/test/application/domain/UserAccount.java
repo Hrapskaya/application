@@ -25,7 +25,6 @@ public class UserAccount implements UserDetails {
     @Pattern(regexp = Regexp.USER_NAME, message = USER_NAME_MISMATCH_REGEXP)
     private String username;
 
-    @Length(min = 3, max = 16, message = PASSWORD_WRONG_LENGTH)
     @Pattern(regexp = Regexp.PASSWORD, message = PASSWORD_MISMATCH_REGEXP)
     private String password;
 
