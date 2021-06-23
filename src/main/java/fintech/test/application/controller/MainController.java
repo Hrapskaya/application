@@ -7,12 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static fintech.test.application.constant.PathConstant.*;
+
 @Controller
 public class MainController {
 
     @GetMapping("/")
     public String home() {
-        return "home";
+        return HOME_PAGE;
     }
 
     @GetMapping("/login")
@@ -22,10 +24,10 @@ public class MainController {
 
 
         if (ControllerUtil.isAuthentication()) {
-            return "home";
+            return HOME_PAGE;
         }
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
-        return "login";
+        return LOGIN_PAGE;
     }
 }

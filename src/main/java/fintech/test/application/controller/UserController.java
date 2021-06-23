@@ -1,6 +1,8 @@
 package fintech.test.application.controller;
 
 import fintech.test.application.domain.UserAccount;
+import fintech.test.application.domain.UserRole;
+import fintech.test.application.domain.UserStatus;
 import fintech.test.application.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,11 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import java.util.Map;
 
-import static fintech.test.application.constant.Message.*;
+import static fintech.test.application.constant.MessageConstant.*;
+import static fintech.test.application.constant.PathConstant.*;
 
 @Controller
 @RequestMapping("/user")
@@ -44,7 +48,7 @@ public class UserController {
             model.addAttribute("filterUserRole", filterUserRole);
         }
         model.addAttribute("userPage", userAccountPage);
-        return "list";
+        return LIST_PAGE;
     }
 
 
@@ -64,13 +68,13 @@ public class UserController {
         } else {
             model.addAttribute("userAccount", userAccount);
         }
-        return "view";
+        return VIEW_PAGE;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/new")
     public String newUser() {
-        return "newUser";
+        return NEW_USER_PAGE;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -95,7 +99,7 @@ public class UserController {
                 model.addAttribute("passwordError", ERROR_PASSWORDS_MISMATCH);
             }
         }
-        return "newUser";
+        return NEW_USER_PAGE;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -104,7 +108,7 @@ public class UserController {
                        Model model) {
         UserAccount userAccount = userAccountService.findById(id);
         model.addAttribute("userAccount", userAccount);
-        return "edit";
+        return EDIT_PAGE;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -135,11 +139,23 @@ public class UserController {
         }
         if (updatedUserAccount == null) {
             model.addAttribute("error", ERROR_USER_NOT_FOUND);
-            return "edit";
+            return EDIT_PAGE;
         } else {
             model.addAttribute("userAccount", updatedUserAccount);
-            return "view";
+            return EDIT_PAGE;
         }
 
+    }
+
+    @PostConstruct
+    private void createDefaultUser(){
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername("admin");
+        userAccount.setFirstName("admin");
+        userAccount.setLastName("admin");
+        userAccount.setPassword("admin");
+        userAccount.setRole(UserRole.ADMIN);
+        userAccount.setStatus(UserStatus.ACTIVE);
+        userAccountService.add(userAccount);
     }
 }

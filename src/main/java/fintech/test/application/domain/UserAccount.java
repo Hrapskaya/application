@@ -1,9 +1,8 @@
 package fintech.test.application.domain;
 
-import fintech.test.application.constant.Regexp;
+import fintech.test.application.constant.RegexpConstant;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotBlank;
@@ -12,30 +11,29 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 
-import static fintech.test.application.constant.Message.*;
+import static fintech.test.application.constant.MessageConstant.*;
+import static fintech.test.application.constant.RegexpConstant.*;
 
 public class UserAccount implements UserDetails {
-
-    private String ROLE_PREFIX = "ROLE_";
 
     private Integer id;
 
     @NotBlank(message = USER_NAME_BLANCK)
-    @Length(min = 3, max = 16, message = USER_NAME_WRONG_LENGTH)
-    @Pattern(regexp = Regexp.USER_NAME, message = USER_NAME_MISMATCH_REGEXP)
+    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = USER_NAME_WRONG_LENGTH)
+    @Pattern(regexp = USER_NAME_REGEX, message = USER_NAME_MISMATCH_REGEXP)
     private String username;
 
-    @Pattern(regexp = Regexp.PASSWORD, message = PASSWORD_MISMATCH_REGEXP)
+    @Pattern(regexp = PASSWORD_REGEX, message = PASSWORD_MISMATCH_REGEXP)
     private String password;
 
     @NotBlank(message = FIRST_NAME_BLANCK)
-    @Length(min = 3, max = 16, message = FIRST_NAME_WRONG_LENGTH)
-    @Pattern(regexp = Regexp.FIRST_NAME, message = FIRST_NAME_MISMATCH_REGEXP)
+    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = FIRST_NAME_WRONG_LENGTH)
+    @Pattern(regexp = FIRST_NAME_REGEX, message = FIRST_NAME_MISMATCH_REGEXP)
     private String firstName;
 
     @NotBlank(message = LAST_NAME_BLANCK)
-    @Length(min = 3, max = 16, message = LAST_NAME_WRONG_LENGTH)
-    @Pattern(regexp = Regexp.LAST_NAME, message = LAST_NAME_MISMATCH_REGEXP)
+    @Length(min = MIN_NAME_SIZE, max = MAX_NAME_SIZE, message = LAST_NAME_WRONG_LENGTH)
+    @Pattern(regexp = RegexpConstant.LAST_NAME_REGEX, message = LAST_NAME_MISMATCH_REGEXP)
     private String lastName;
 
     private UserRole role;
