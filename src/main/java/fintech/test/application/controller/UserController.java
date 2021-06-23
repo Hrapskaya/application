@@ -1,8 +1,6 @@
 package fintech.test.application.controller;
 
 import fintech.test.application.domain.UserAccount;
-import fintech.test.application.domain.UserRole;
-import fintech.test.application.domain.UserStatus;
 import fintech.test.application.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import java.util.Map;
@@ -145,17 +142,5 @@ public class UserController {
             return EDIT_PAGE;
         }
 
-    }
-
-    @PostConstruct
-    private void createDefaultUser(){
-        UserAccount userAccount = new UserAccount();
-        userAccount.setUsername("admin");
-        userAccount.setFirstName("admin");
-        userAccount.setLastName("admin");
-        userAccount.setPassword("admin");
-        userAccount.setRole(UserRole.ADMIN);
-        userAccount.setStatus(UserStatus.ACTIVE);
-        userAccountService.add(userAccount);
     }
 }

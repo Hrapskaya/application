@@ -26,10 +26,10 @@ public class UserAccountEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
