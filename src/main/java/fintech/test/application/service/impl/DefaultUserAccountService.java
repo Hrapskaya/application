@@ -1,6 +1,5 @@
 package fintech.test.application.service.impl;
 
-import fintech.test.application.domain.UserRole;
 import fintech.test.application.domain.entity.UserAccountEntity;
 import fintech.test.application.domain.UserAccount;
 import fintech.test.application.domain.UserStatus;
@@ -16,12 +15,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service
-
+@Transactional
 public class DefaultUserAccountService implements UserAccountService {
 
     @Autowired
